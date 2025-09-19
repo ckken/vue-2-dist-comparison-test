@@ -304,7 +304,7 @@ try {
 `;
 
 // 并行构建测试（使用Worker进程）
-async function runParallelBuilds(buildCount = 5) {
+async function runParallelBuilds(buildCount = 3) {
   console.log(`\n🔄 开始 ${buildCount} 次Worker并行构建...`)
   console.log(`⚡ 使用真正的并行Worker进程，测试高负载下构建一致性`)
 
@@ -601,7 +601,7 @@ async function main() {
 
     // 步骤3: 执行并行构建验证一致性
     console.log('\n📋 步骤3: 执行并行构建验证一致性')
-    const { results: buildResults, tempDir } = await runParallelBuilds(5)
+    const { results: buildResults, tempDir } = await runParallelBuilds(runBuildTimes)
 
     // 步骤4: 对比结果
     console.log('\n📋 步骤4: 对比构建结果')
