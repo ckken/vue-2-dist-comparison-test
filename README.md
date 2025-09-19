@@ -210,12 +210,3 @@ module.exports = {
   productionSourceMap: false
 }
 ```
-
-## 贡献指南
-
-1. Fork 本项目
-2. 创建特性分支 (`git checkout -b feature/new-test`)
-3. 提交更改 (`git commit -am 'Add new test case'`)
-4. 推送到分支 (`git push origin feature/new-test`)
-5. 创建 Pull Request
-
