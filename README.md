@@ -219,10 +219,3 @@ module.exports = {
 4. 推送到分支 (`git push origin feature/new-test`)
 5. 创建 Pull Request
 
-## 许可证
-
-MIT License
-
-## 联系方式
-
-如有问题或建议，请创建 Issue 或联系项目维护者。
