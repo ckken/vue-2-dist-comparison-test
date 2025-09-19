@@ -1,22 +1,8 @@
 <template>
-  <div class="test-component enhanced">
+  <div class="test-component">
     <h2>{{ title }}</h2>
     <p>{{ content }}</p>
-    <div class="stats">
-      <span>点击次数: {{ clickCount }}</span>
-      <span>最后更新: {{ lastUpdate }}</span>
-    </div>
-    <div class="button-group">
-      <button @click="updateContent" class="primary">更新内容</button>
-      <button @click="resetContent" class="secondary">重置内容</button>
-      <button @click="addRandomContent" class="accent">添加随机内容</button>
-    </div>
-    <div class="content-history" v-if="history.length > 0">
-      <h3>历史记录:</h3>
-      <ul>
-        <li v-for="(item, index) in history" :key="index">{{ item }}</li>
-      </ul>
-    </div>
+    <button @click="updateContent">更新内容</button>
   </div>
 </template>
 
@@ -25,35 +11,13 @@ export default {
   name: 'TestComponent',
   data() {
     return {
-      title: '增强测试组件 v2.0',
-      content: '这是修改后的初始内容',
-      clickCount: 0,
-      lastUpdate: '',
-      history: []
+      title: '测试组件',
+      content: '这是初始内容'
     }
   },
   methods: {
     updateContent() {
-      this.clickCount++
-      this.lastUpdate = new Date().toLocaleTimeString()
-      this.content = `内容已更新 #${this.clickCount} - ${this.lastUpdate}`
-      this.history.push(`更新 #${this.clickCount}: ${this.lastUpdate}`)
-    },
-    resetContent() {
-      this.content = '这是修改后的初始内容'
-      this.clickCount = 0
-      this.lastUpdate = ''
-      this.history = []
-    },
-    addRandomContent() {
-      const randomTexts = [
-        '随机内容A: 测试数据变化',
-        '随机内容B: 动态更新验证', 
-        '随机内容C: Hash值变化测试',
-        '随机内容D: 构建差异检测'
-      ]
-      this.content = randomTexts[Math.floor(Math.random() * randomTexts.length)]
-      this.lastUpdate = new Date().toLocaleTimeString()
+      this.content = '内容已更新 - ' + new Date().toLocaleTimeString()
     }
   }
 }
