@@ -307,32 +307,32 @@ try {
 async function runParallelBuilds(buildCount = 5) {
   console.log(`\n🔄 开始 ${buildCount} 次Worker并行构建...`)
   console.log(`⚡ 使用真正的并行Worker进程，测试高负载下构建一致性`)
-  
+
   // 创建临时目录统一管理所有临时文件
   const tempDir = path.join(PROJECT_ROOT, 'temp-test-files');
   await fs.mkdir(tempDir, { recursive: true });
   console.log(`📁 创建临时目录: ${tempDir}`);
-  
+
   // 创建临时worker脚本文件
   const workerScriptPath = path.join(tempDir, 'build-worker.js');
   await fs.writeFile(workerScriptPath, workerScript, 'utf8');
-  
+
   const workerPromises = [];
-  
+
   for (let i = 1; i <= buildCount; i++) {
     const buildDir = path.join(tempDir, `build-${i}`);
-    
+
     const workerPromise = new Promise((resolve, reject) => {
       console.log(`🏗️  启动Worker构建 ${i}/${buildCount}...`);
-      
+
       const worker = new Worker(workerScriptPath, {
-         workerData: {
-           buildId: i,
-           buildDir: path.relative(PROJECT_ROOT, buildDir),
-           projectRoot: PROJECT_ROOT
-         }
-       });
-      
+        workerData: {
+          buildId: i,
+          buildDir: path.relative(PROJECT_ROOT, buildDir),
+          projectRoot: PROJECT_ROOT
+        }
+      });
+
       worker.on('message', (result) => {
         if (result.success) {
           console.log(`✅ ${result.message}`);
@@ -343,31 +343,31 @@ async function runParallelBuilds(buildCount = 5) {
         }
         worker.terminate();
       });
-      
+
       worker.on('error', (error) => {
         console.log(`❌ Worker ${i} 错误:`, error.message);
         reject(error);
       });
-      
+
       worker.on('exit', (code) => {
         if (code !== 0) {
           reject(new Error(`Worker ${i} 异常退出，代码: ${code}`));
         }
       });
     });
-    
+
     workerPromises.push(workerPromise);
   }
-  
+
   try {
     const results = await Promise.all(workerPromises);
     console.log(`🎉 所有 ${buildCount} 次Worker构建完成!`);
-     
-     return { results, tempDir };
+
+    return { results, tempDir };
   } catch (error) {
-     console.log(`❌ Worker并行构建过程中出现错误:`, error.message);
-     
-     return { results: [], tempDir };
+    console.log(`❌ Worker并行构建过程中出现错误:`, error.message);
+
+    return { results: [], tempDir };
   }
 }
 
@@ -602,11 +602,11 @@ async function main() {
     // 步骤3: 执行并行构建验证一致性
     console.log('\n📋 步骤3: 执行并行构建验证一致性')
     const { results: buildResults, tempDir } = await runParallelBuilds(5)
-    
+
     // 步骤4: 对比结果
     console.log('\n📋 步骤4: 对比构建结果')
     await compareBuildsWithModified(originalDist, modifiedDist, buildResults)
-    
+
     // 步骤5: 清理所有临时文件
     console.log('\n📋 步骤5: 清理临时文件')
     try {
@@ -615,7 +615,7 @@ async function main() {
     } catch (error) {
       console.log(`⚠️  清理临时目录失败: ${error.message}`)
     }
-    
+
     // 步骤6: 恢复原始TestComponent
     await restoreTestComponent()
 
