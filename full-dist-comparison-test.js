@@ -18,7 +18,7 @@ const TEST_COMPONENT_PATH = path.join(COMPONENTS_DIR, 'TestComponent.vue')
 const BACKUP_PATH = path.join(PROJECT_ROOT, 'TestComponent.vue.backup')
 const DIST_DIR = path.join(PROJECT_ROOT, 'dist')
 
-const runBuildTimes = 5
+const runBuildTimes = 20
 
 // 计算文件hash值
 async function calculateFileHash(filePath) {
